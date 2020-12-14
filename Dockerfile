@@ -13,13 +13,14 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends wget unzip
 
 RUN wget --no-check-certificate -O v2ray.zip https://github.com/v2fly/v2ray-core/releases/download/v$VER/v2ray-linux-64.zip \
-	&& unzip v2ray.zip \
-	&& mv ./v2ray-v$VER-linux-64/v2ray /usr/local/bin/ \
-	&& mv ./v2ray-v$VER-linux-64/v2ctl /usr/local/bin/ \
+	&& mkdir v2ray-dir \
+	&& unzip v2ray.zip -d ./v2ray-dir \
+	&& mv ./v2ray-dir/v2ray /usr/local/bin/ \
+	&& mv ./v2ray-dir/v2ctl /usr/local/bin/ \
 	&& chmod 777 /usr/local/bin/v2ctl \
 	&& chmod 777 /usr/local/bin/v2ray \
 	&& rm -rf v2ray.zip \
-	&& rm -rf v2ray-v$VER-linux-64
+	&& rm -rf v2ray-dir
 
 RUN chmod -R 777 /var/log/nginx /var/cache/nginx /var/run \
 	&& chgrp -R 0 /etc/nginx \
